@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de Géométrie - 3ème Préparatoire</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax for Beautiful Math Equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white;
+                color: black;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Top Navigation / Toolbar (Hidden in Print) -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 no-print shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="p-2 bg-indigo-50 text-indigo-600 rounded-lg font-bold">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </span>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900">Examen de Géométrie - Traduit</h1>
+                    <p class="text-xs text-slate-500">Niveau : 3<sup>ème</sup> Année Préparatoire (Semestre 2)</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <!-- Mode Toggle -->
+                <button id="toggle-solutions-btn" onclick="toggleSolutions()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition flex items-center gap-2 shadow-sm">
+                    <i id="toggle-icon" class="fa-solid fa-eye-slash"></i>
+                    <span id="toggle-text">Afficher le Corrigé</span>
+                </button>
+                <!-- Print Button -->
+                <button onclick="window.print()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Imprimer</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+
+        <!-- Exam Header / Cartouche (Styled like official French/Egyptian Prep Exams) -->
+        <div class="bg-white border-2 border-slate-900 p-6 rounded-xl shadow-sm mb-8 relative overflow-hidden">
+            <!-- Decorative corner badge -->
+            <div class="absolute top-0 right-0 bg-slate-900 text-white px-4 py-1 text-xs font-bold uppercase tracking-wider">
+                Officiel Traduit
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-b border-slate-300 pb-4 mb-4">
+                <div class="text-center md:text-left">
+                    <p class="text-xs uppercase font-semibold text-slate-500 tracking-wider">République Arabe d'Égypte</p>
+                    <p class="text-sm font-bold text-slate-800">Ministère de l'Éducation</p>
+                    <p class="text-xs text-slate-500">Direction de l'Enseignement Mathématique</p>
+                </div>
+                <div class="text-center flex flex-col justify-center items-center">
+                    <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">EXAMEN DE GÉOMÉTRIE</h2>
+                    <span class="inline-block mt-1 px-3 py-1 bg-amber-100 text-amber-800 text-xs font-semibold rounded-full">Durée : 2 Heures</span>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-sm font-semibold text-slate-800">3<sup>ème</sup> Année Préparatoire</p>
+                    <p class="text-xs text-slate-500">Deuxième Semestre</p>
+                    <p class="text-xs text-indigo-600 font-medium mt-1"><i class="fa-solid fa-globe"></i> Version Franco-Arabe</p>
+                </div>
+            </div>
+
+            <!-- Student Name Field (Print-friendly) -->
+            <div class="flex flex-col md:flex-row justify-between gap-4 text-sm pt-2">
+                <div class="flex-1 flex items-center">
+                    <span class="font-semibold text-slate-700 mr-2">Nom de l'élève :</span>
+                    <div class="flex-1 border-b-2 border-dotted border-slate-300 h-6"></div>
+                </div>
+                <div class="w-full md:w-48 flex items-center">
+                    <span class="font-semibold text-slate-700 mr-2">N° de table :</span>
+                    <div class="flex-1 border-b-2 border-dotted border-slate-300 h-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions (Bilingual Lexicon tooltip help) -->
+        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl mb-8 no-print">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fa-solid fa-circle-info text-indigo-500 text-lg"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-semibold text-indigo-800">💡 Conseil pour la traduction :</h3>
+                    <p class="text-xs text-indigo-700 mt-1">
+                        Passez votre souris sur les mots soulignés en pointillés (ex: <span class="border-b border-dashed border-indigo-600 cursor-help font-semibold group relative" title="رباعي دائري">quadrilatère inscriptible</span>) pour voir leur traduction instantanée en Arabe.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCICE 1 : QCM (10 Points) -->
+        <section class="bg-white border border-slate-200 p-6 rounded-xl shadow-sm mb-8">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-7 h-7 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                    Question I : Choisir la bonne réponse
+                </h3>
+                <span class="text-sm font-semibold text-slate-500">[ 5 points ]</span>
+            </div>
+
+            <p class="text-sm text-slate-600 italic mb-6">Parmi les réponses proposées, choisissez la seule réponse correcte pour chaque énoncé :</p>
+
+            <div class="space-y-8">
+                <!-- Q1 -->
+                <div class="q-card" id="q1-container">
+                    <div class="flex items-start">
+                        <span class="text-slate-500 font-bold mr-3">(1)</span>
+                        <div>
+                            <p class="text-base font-semibold text-slate-900">
+                                Si une droite est 
+                                <span class="border-b border-dashed border-slate-400 hover:border-indigo-600 cursor-help" title="مماس للدائرة">tangente à un cercle</span> 
+                                de diamètre \(8 \text{ cm}\), alors sa distance par rapport au centre du cercle est égale à :
+                            </p>
+                            <!-- MCQ Options -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                                <button onclick="selectOption('q1', 'A', false)" class="q1-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>A) \(8 \text{ cm}\)</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q1', 'B', true)" class="q1-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>B) \(4 \text{ cm}\)</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q1', 'C', false)" class="q1-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>C) \(16 \text{ cm}\)</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q1', 'D', false)" class="q1-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>D) \(2 \text{ cm}\)</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                            </div>
+                            <!-- Explanations (Hidden initially) -->
+                            <div class="solution-block hidden mt-3 p-3 bg-emerald-50 border-l-4 border-emerald-500 rounded text-xs text-emerald-800">
+                                <strong>Explication :</strong> La distance entre la tangente et le centre est égale au rayon du cercle. Si le diamètre est \(8 \text{ cm}\), le rayon est \(\frac{8}{2} = 4 \text{ cm}\).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="q-card" id="q2-container">
+                    <div class="flex items-start">
+                        <span class="text-slate-500 font-bold mr-3">(2)</span>
+                        <div>
+                            <p class="text-base font-semibold text-slate-900">
+                                La mesure d'un 
+                                <span class="border-b border-dashed border-slate-400 hover:border-indigo-600 cursor-help" title="زاوية محيطية">angle inscrit</span> 
+                                est égale à __________ de la mesure de l'
+                                <span class="border-b border-dashed border-slate-400 hover:border-indigo-600 cursor-help" title="زاوية مركزية">angle au centre</span> 
+                                interceptant le même arc.
+                            </p>
+                            <!-- MCQ Options -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                                <button onclick="selectOption('q2', 'A', false)" class="q2-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>A) l'égalité de</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q2', 'B', true)" class="q2-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>B) la moitié de</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q2', 'C', false)" class="q2-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>C) le double de</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q2', 'D', false)" class="q2-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>D) le triple de</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                            </div>
+                            <div class="solution-block hidden mt-3 p-3 bg-emerald-50 border-l-4 border-emerald-500 rounded text-xs text-emerald-800">
+                                <strong>Théorème :</strong> L'angle inscrit mesure la moitié de l'angle au centre associé au même arc.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="q-card" id="q3-container">
+                    <div class="flex items-start">
+                        <span class="text-slate-500 font-bold mr-3">(3)</span>
+                        <div>
+                            <p class="text-base font-semibold text-slate-900">
+                                Les 
+                                <span class="border-b border-dashed border-slate-400 hover:border-indigo-600 cursor-help" title="قطرا المعين">diagonales d'un losange</span> sont toujours :
+                            </p>
+                            <!-- MCQ Options -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                                <button onclick="selectOption('q3', 'A', false)" class="q3-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>A) égales</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q3', 'B', true)" class="q3-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>B) perpendiculaires</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q3', 'C', false)" class="q3-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>C) parallèles</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q3', 'D', false)" class="q3-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>D) confondues</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                            </div>
+                            <div class="solution-block hidden mt-3 p-3 bg-emerald-50 border-l-4 border-emerald-500 rounded text-xs text-emerald-800">
+                                <strong>Propriété :</strong> Les diagonales d'un losange sont perpendiculaires et se coupent en leur milieu.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4 (With SVG Diagram) -->
+                <div class="q-card" id="q4-container">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1">
+                            <div class="flex items-start">
+                                <span class="text-slate-500 font-bold mr-3">(4)</span>
+                                <div>
+                                    <p class="text-base font-semibold text-slate-900">
+                                        Dans la figure ci-contre, si \(ABCD\) est un 
+                                        <span class="border-b border-dashed border-slate-400 hover:border-indigo-600 cursor-help" title="رباعي دائري">quadrilatère inscriptible</span>, 
+                                        avec \(m(\angle BAD) = (2x + 10)^\circ\) et \(m(\angle BCD) = 80^\circ\).
+                                        <br>
+                                        <span class="text-indigo-600 font-medium">Calculez la valeur de \(x\) :</span>
+                                    </p>
+                                    <!-- MCQ Options -->
+                                    <div class="grid grid-cols-2 gap-3 mt-4">
+                                        <button onclick="selectOption('q4', 'A', true)" class="q4-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                            <span>A) \(x = 45^\circ\)</span>
+                                            <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                        </button>
+                                        <button onclick="selectOption('q4', 'B', false)" class="q4-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                            <span>B) \(x = 50^\circ\)</span>
+                                            <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                        </button>
+                                        <button onclick="selectOption('q4', 'C', false)" class="q4-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                            <span>C) \(x = 40^\circ\)</span>
+                                            <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                        </button>
+                                        <button onclick="selectOption('q4', 'D', false)" class="q4-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                            <span>D) \(x = 35^\circ\)</span>
+                                            <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                        </button>
+                                    </div>
+                                    <div class="solution-block hidden mt-3 p-3 bg-emerald-50 border-l-4 border-emerald-500 rounded text-xs text-emerald-800">
+                                        <strong>Explication :</strong> Dans un quadrilatère inscriptible, les angles opposés sont supplémentaires. 
+                                        <br> Donc, \(m(\angle BAD) + m(\angle BCD) = 180^\circ\)
+                                        <br> \((2x + 10) + 80 = 180 \implies 2x + 90 = 180 \implies 2x = 90 \implies x = 45\).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SVG Diagram for Q4 -->
+                        <div class="w-full md:w-56 flex justify-center items-center bg-slate-50 border border-slate-150 p-3 rounded-xl">
+                            <svg class="w-48 h-48" viewBox="0 0 200 200">
+                                <!-- Circle -->
+                                <circle cx="100" cy="100" r="80" stroke="#475569" stroke-width="2" fill="none" />
+                                <circle cx="100" cy="100" r="2.5" fill="#475569" />
+                                <text x="105" y="105" font-size="12" fill="#475569" font-family="serif" font-style="italic">O</text>
+                                
+                                <!-- Inscribed Quadrilateral ABCD -->
+                                <!-- A(43, 44), B(175, 74), C(131, 172), D(25, 126) approx -->
+                                <polygon points="60,30 165,60 140,165 40,120" stroke="#1e1b4b" stroke-width="2" fill="none" />
+                                
+                                <!-- Labels -->
+                                <text x="55" y="22" font-size="14" font-weight="bold" fill="#1e293b">A</text>
+                                <text x="175" y="60" font-size="14" font-weight="bold" fill="#1e293b">B</text>
+                                <text x="145" y="180" font-size="14" font-weight="bold" fill="#1e293b">C</text>
+                                <text x="23" y="125" font-size="14" font-weight="bold" fill="#1e293b">D</text>
+
+                                <!-- Angles markers -->
+                                <text x="50" y="55" font-size="9" fill="#4f46e5" font-weight="bold">2x+10°</text>
+                                <text x="112" y="150" font-size="11" fill="#4f46e5" font-weight="bold">80°</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="q-card" id="q5-container">
+                    <div class="flex items-start">
+                        <span class="text-slate-500 font-bold mr-3">(5)</span>
+                        <div>
+                            <p class="text-base font-semibold text-slate-900">
+                                Soit un cercle de diamètre \(14 \text{ cm}\). Si un point \(A\) se situe à une distance de \(7 \text{ cm}\) de son centre, alors le point \(A\) est situé :
+                            </p>
+                            <!-- MCQ Options -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                                <button onclick="selectOption('q5', 'A', true)" class="q5-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>A) sur le cercle</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q5', 'B', false)" class="q5-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>B) à l'extérieur</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q5', 'C', false)" class="q5-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>C) à l'intérieur</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                                <button onclick="selectOption('q5', 'D', false)" class="q5-opt border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 p-3 rounded-lg text-sm font-medium transition text-left flex items-center justify-between">
+                                    <span>D) au centre</span>
+                                    <i class="indicator fa-regular fa-circle text-slate-300"></i>
+                                </button>
+                            </div>
+                            <div class="solution-block hidden mt-3 p-3 bg-emerald-50 border-l-4 border-emerald-500 rounded text-xs text-emerald-800">
+                                <strong>Explication :</strong> Le rayon du cercle est égal à la moitié du diamètre : \(r = \frac{14}{2} = 7 \text{ cm}\). Puisque la distance du point \(A\) au centre est égale au rayon (\(OA = 7 \text{ cm}\)), alors le point \(A\) est situé <strong>sur le cercle</strong>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE BREAK FOR PRINTING EXAM PERFECTLY -->
+        <div class="page-break"></div>
+
+        <!-- EXERCICE 2 : PROOF 1 (5 Points) -->
+        <section class="bg-white border border-slate-200 p-6 rounded-xl shadow-sm mb-8">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-7 h-7 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                    Question II : Première Démonstration
+                </h3>
+                <span class="text-sm font-semibold text-slate-500">[ 5 points ]</span>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Text and Math details -->
+                <div class="flex-1">
+                    <p class="text-base text-slate-950 font-bold mb-4">Dans la figure ci-contre :</p>
+                    <ul class="space-y-2 text-sm text-slate-700 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <li class="flex justify-between">
+                            <span>• Angle opposé :</span>
+                            <span class="font-bold text-slate-900">\(m(\angle ADC) = 100^\circ\)</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>• Angle à la base :</span>
+                            <span class="font-bold text-slate-900">\(m(\angle BAC) = 40^\circ\)</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>• Angle complémentaire :</span>
+                            <span class="font-bold text-slate-900">\(m(\angle DBC) = 40^\circ\)</span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-6 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg">
+                        <h4 class="font-bold text-amber-950 text-sm mb-1">🎯 Question à démontrer :</h4>
+                        <p class="text-sm text-amber-900 font-semibold">
+                            Prouvez que le quadrilatère \(ABCD\) est un <span class="border-b border-dashed border-amber-700 cursor-help" title="رباعي دائري">quadrilatère inscriptible</span>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SVG Diagram for Q6 -->
+                <div class="w-full md:w-64 flex justify-center items-center bg-slate-50 border border-slate-150 p-4 rounded-xl">
+                    <svg class="w-56 h-56" viewBox="0 0 200 200">
+                        <!-- Circumcircle (imaginary/ghost to guide drawing) -->
+                        <circle cx="100" cy="100" r="85" stroke="#cbd5e1" stroke-dasharray="4" stroke-width="1.5" fill="none" />
+                        
+                        <!-- Vertices of Cyclic Quad: A, B, C, D -->
+                        <polygon points="50,25 150,35 170,145 40,135" stroke="#1e293b" stroke-width="2.5" fill="none" />
+                        
+                        <!-- Diagonals AC and BD -->
+                        <line x1="50" y1="25" x2="170" y2="145" stroke="#475569" stroke-width="1.5" />
+                        <line x1="150" y1="35" x2="40" y2="135" stroke="#475569" stroke-width="1.5" />
+                        
+                        <!-- Labels -->
+                        <text x="40" y="18" font-size="14" font-weight="bold" fill="#1e293b">A</text>
+                        <text x="158" y="30" font-size="14" font-weight="bold" fill="#1e293b">B</text>
+                        <text x="178" y="155" font-size="14" font-weight="bold" fill="#1e293b">C</text>
+                        <text x="25" y="145" font-size="14" font-weight="bold" fill="#1e293b">D</text>
+
+                        <!-- Angles labels and values -->
+                        <!-- Angle ADC = 100 -->
+                        <path d="M 40,115 A 20,20 0 0,0 55,135" fill="none" stroke="#ea580c" stroke-width="1.5" />
+                        <text x="50" y="125" font-size="11" fill="#ea580c" font-weight="bold">100°</text>
+
+                        <!-- Angle BAC = 40 -->
+                        <text x="65" y="48" font-size="10" fill="#4f46e5" font-weight="bold">40°</text>
+
+                        <!-- Angle DBC = 40 -->
+                        <text x="125" y="55" font-size="10" fill="#4f46e5" font-weight="bold">40°</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Proof Answer (Hidden togglable) -->
+            <div class="solution-block hidden mt-6 border-t border-emerald-100 pt-6">
+                <div class="bg-emerald-50 border-l-4 border-emerald-500 p-5 rounded-r-xl">
+                    <h4 class="text-emerald-900 font-extrabold text-sm mb-3 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                        Démonstration Rigoureuse (Corrigé) :
+                    </h4>
+                    <div class="space-y-3 text-sm text-emerald-950 leading-relaxed">
+                        <p>
+                            <strong>1) Analyse des angles :</strong>
+                            <br>Considérons le segment \([CD]\) comme une base commune pour les angles d'observation.
+                        </p>
+                        <p>
+                            <strong>2) Égalité des angles interceptant le même segment :</strong>
+                            <br>D'après les données de la figure, nous avons :
+                            <br>\(m(\angle BAC) = 40^\circ\) et \(m(\angle DBC) = 40^\circ\)
+                            <br>Par conséquent, les deux angles \(\angle BAC\) et \(\angle DBC\) sont de mesures égales :
+                            <br><span class="font-bold text-indigo-700">\(m(\angle BAC) = m(\angle DBC) = 40^\circ\)</span>
+                        </p>
+                        <p>
+                            <strong>3) Conclusion géométrique :</strong>
+                            <br>Puisque ces deux angles sont égaux et reposent tous deux sur la même base commune \([BC]\) et sont situés du même côté de cette base, alors d'après le théorème réciproque des quadrilatères cycliques :
+                            <br>Le quadrilatère <span class="font-extrabold">\(ABCD\) est inscriptible</span> dans un cercle.
+                        </p>
+                        <div class="text-right text-xs text-slate-500 mt-2">Q.E.D. (Ce qu'il fallait démontrer)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXERCICE 3 : PROOF 2 (5 Points) -->
+        <section class="bg-white border border-slate-200 p-6 rounded-xl shadow-sm mb-8">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-7 h-7 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                    Question III : Deuxième Démonstration
+                </h3>
+                <span class="text-sm font-semibold text-slate-500">[ 5 points ]</span>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Text and Math details -->
+                <div class="flex-1">
+                    <p class="text-base text-slate-950 font-bold mb-4">Dans la figure ci-contre :</p>
+                    <ul class="space-y-3 text-sm text-slate-700 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span>
+                            <span>La droite \((XY)\) est 
+                                <span class="border-b border-dashed border-slate-400 hover:border-indigo-600 cursor-help" title="مماس للدائرة عند أ">tangente au cercle</span> au point \(A\).
+                            </span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span>
+                            <span>La corde \([CD]\) est parallèle à la tangente : 
+                                <span class="font-bold text-slate-900">\((CD) \parallel (XY)\)</span>.
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-6 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg">
+                        <h4 class="font-bold text-amber-950 text-sm mb-1">🎯 Question à démontrer :</h4>
+                        <p class="text-sm text-amber-900 font-semibold">
+                            Démontrez que le quadrilatère \(BCDE\) (situé à l'intérieur du cercle) est un <span class="border-b border-dashed border-amber-700 cursor-help" title="رباعي دائري">quadrilatère inscriptible</span>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SVG Diagram for Q7 -->
+                <div class="w-full md:w-64 flex justify-center items-center bg-slate-50 border border-slate-150 p-4 rounded-xl">
+                    <svg class="w-56 h-56" viewBox="0 0 200 200">
+                        <!-- Circle -->
+                        <circle cx="100" cy="100" r="70" stroke="#475569" stroke-width="2" fill="none" />
+                        
+                        <!-- Tangent line XY at A(100, 30) -->
+                        <line x1="30" y1="30" x2="170" y2="30" stroke="#e11d48" stroke-width="2" />
+                        <text x="25" y="25" font-size="12" font-weight="bold" fill="#e11d48">X</text>
+                        <text x="165" y="25" font-size="12" font-weight="bold" fill="#e11d48">Y</text>
+                        
+                        <!-- Tangent point A -->
+                        <circle cx="100" cy="30" r="3" fill="#e11d48" />
+                        <text x="96" y="22" font-size="12" font-weight="bold" fill="#1e293b">A</text>
+
+                        <!-- Parallel segment CD -->
+                        <line x1="50" y1="75" x2="150" y2="75" stroke="#2563eb" stroke-dasharray="3" stroke-width="2" />
+                        <circle cx="50" cy="75" r="3" fill="#2563eb" />
+                        <circle cx="150" cy="75" r="3" fill="#2563eb" />
+                        <text x="35" y="78" font-size="12" font-weight="bold" fill="#1e293b">C</text>
+                        <text x="156" y="78" font-size="12" font-weight="bold" fill="#1e293b">D</text>
+
+                        <!-- Inscribed Quadrilateral points B and E on Circle -->
+                        <!-- B at approx (156, 144) and E at (44, 144) -->
+                        <polygon points="50,75 150,75 160,135 40,135" stroke="#1e293b" stroke-width="1.5" fill="none" />
+                        
+                        <circle cx="160" cy="135" r="3" fill="#1e293b" />
+                        <circle cx="40" cy="135" r="3" fill="#1e293b" />
+                        <text x="165" y="145" font-size="12" font-weight="bold" fill="#1e293b">B</text>
+                        <text x="28" y="145" font-size="12" font-weight="bold" fill="#1e293b">E</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Proof Answer (Hidden togglable) -->
+            <div class="solution-block hidden mt-6 border-t border-emerald-100 pt-6">
+                <div class="bg-emerald-50 border-l-4 border-emerald-500 p-5 rounded-r-xl">
+                    <h4 class="text-emerald-900 font-extrabold text-sm mb-3 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                        Démonstration Rigoureuse (Corrigé) :
+                    </h4>
+                    <div class="space-y-3 text-sm text-emerald-950 leading-relaxed">
+                        <p>
+                            <strong>Étape 1 : Relation d'angle tangentiel et angle inscrit :</strong>
+                            <br>L'angle formé par la tangente et la corde, \(\angle XAC\), est un angle de tangence. Il intercepte l'arc \(AC\).
+                            <br>L'angle inscrit \(\angle AEC\) intercepte également l'arc \(AC\).
+                            <br>D'après le théorème de l'angle de tangence : <span class="font-bold text-indigo-700">\(m(\angle XAC) = m(\angle AEC)\)</span> (Équation 1).
+                        </p>
+                        <p>
+                            <strong>Étape 2 : Utilisation des droites parallèles :</strong>
+                            <br>Comme la droite \((XY)\) est parallèle à la corde \((CD)\), les angles alternes-internes formés par la sécante \((AC)\) sont égaux.
+                            <br>Donc : <span class="font-bold text-indigo-700">\(m(\angle XAC) = m(\angle ACD)\)</span> (Équation 2).
+                        </p>
+                        <p>
+                            <strong>Étape 3 : Conclusion de l'équivalence d'angles :</strong>
+                            <br>En comparant l'Équation 1 et l'Équation 2, nous en déduisons que :
+                            <br>\(m(\angle AEC) = m(\angle ACD)\).
+                        </p>
+                        <p>
+                            <strong>Étape 4 : Démonstration finale de la cyclicité :</strong>
+                            <br>Puisque l'angle extérieur de ce quadrilatère est égal à l'angle intérieur opposé, cela prouve définitivement que le quadrilatère <span class="font-extrabold">\(BCDE\) est inscriptible</span>.
+                        </p>
+                        <div class="text-right text-xs text-slate-500 mt-2">Q.E.D.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 mt-16 no-print border-t border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-sm">Examen de Géométrie - 3<sup>ème</sup> Préparatoire (Traduit de l'arabe avec figures géométriques interactives)</p>
+            <p class="text-xs text-slate-600 mt-2">© 2026 Système d'Examen Scolaire Bilingue. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive script to grade MCQ and toggle Solutions -->
+    <script>
+        // Track state of answers
+        const selectedAnswers = {
+            q1: null,
+            q2: null,
+            q3: null,
+            q4: null,
+            q5: null
+        };
+
+        function selectOption(questionId, option, isCorrect) {
+            // Find all buttons for this question
+            const buttons = document.querySelectorAll(`.${questionId}-opt`);
+            
+            // Clear previous styles
+            buttons.forEach(btn => {
+                btn.classList.remove('border-emerald-500', 'bg-emerald-50', 'border-rose-500', 'bg-rose-50', 'text-emerald-900', 'text-rose-900');
+                btn.classList.add('border-slate-200');
+                
+                const icon = btn.querySelector('.indicator');
+                icon.className = 'indicator fa-regular fa-circle text-slate-300';
+            });
+
+            // Apply selected style
+            const selectedBtn = event.currentTarget;
+            selectedBtn.classList.remove('border-slate-200');
+            
+            const icon = selectedBtn.querySelector('.indicator');
+            
+            if (isCorrect) {
+                selectedBtn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+                icon.className = 'indicator fa-solid fa-circle-check text-emerald-600';
+            } else {
+                selectedBtn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                icon.className = 'indicator fa-solid fa-circle-xmark text-rose-600';
+            }
+
+            // Save response
+            selectedAnswers[questionId] = isCorrect;
+        }
+
+        function toggleSolutions() {
+            const solutionBlocks = document.querySelectorAll('.solution-block');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const isHidden = solutionBlocks[0].classList.contains('hidden');
+
+            if (isHidden) {
+                solutionBlocks.forEach(block => block.classList.remove('hidden'));
+                toggleText.innerText = "Masquer le Corrigé";
+                toggleIcon.className = "fa-solid fa-eye";
+            } else {
+                solutionBlocks.forEach(block => block.classList.add('hidden'));
+                toggleText.innerText = "Afficher le Corrigé";
+                toggleIcon.className = "fa-solid fa-eye-slash";
+            }
+        }
+    </script>
+</body>
+</html>
